@@ -2,13 +2,18 @@
 name = "backend-api"
 version = "0.0.1"
 description = "FastAPI implementation"
-authors = ["Your Name <you@example.com>"]
+authors = ["Cao Tri Do <huycaotrido@gmail.com>"]
 readme = "README.md"
 packages = [{include = "backend_api"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10.8"
+uvicorn = "^0.20.0"
+fastapi = "^0.89.1"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^6.2.5"
+pytest-mock = "^3.6.1"
 
 [build-system]
 requires = ["poetry-core"]
