@@ -1,26 +1,21 @@
-# syntax = docker/dockerfile:1.4
+FROM python:3.10.8 as requirements-stage
 
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9-slim AS builder
+WORKDIR /tmp
 
-WORKDIR /app
+RUN pip install poetry
 
-COPY requirements.txt ./
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements.txt
+COPY ./pyproject.toml ./poetry.lock* /tmp/
 
-COPY ./app ./app
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-FROM builder as dev-envs
+FROM python:3.10.8
 
-RUN <<EOF
-apt-get update
-apt-get install -y --no-install-recommends git
-EOF
+WORKDIR /code
 
-RUN <<EOF
-useradd -s /bin/bash -m vscode
-groupadd docker
-usermod -aG docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
+COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+COPY ./app /code/app
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
