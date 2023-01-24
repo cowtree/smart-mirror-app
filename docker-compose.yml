@@ -1,0 +1,25 @@
+version: 1.0.0
+
+services:
+  backend-db:
+    image: mysql:8.0.28
+    environment:
+      MYSQL_DATABASE: 'mirror-db'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+
+  backend-api:
+    build: ./backend-api
+    environment:
+      - 'APP_PORT=8080'
+      - 'APP_HOST=dev'
+    ports:
+      - '8080:8080'
+    volumes:
+      - './backend-api:/app'
+
+
+
