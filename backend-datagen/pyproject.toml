@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "backend-datagen"
+version = "0.1.0"
+description = "Simple data generator"
+authors = ["Cao Tri Do <huycaotrido@gmail.com>"]
+readme = "README.md"
+packages = [{include = "backend_datagen"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+requests = "^2.28.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
