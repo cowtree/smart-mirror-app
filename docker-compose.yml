@@ -7,13 +7,18 @@ services:
       - '8000:8000'
     volumes:
       - './backend-api:/app'
-
   backend-datagen:
     build: ./backend-datagen
     volumes:
       - './backend-datagen:/app'
     links:
       - backend-api
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+
   
 
 
